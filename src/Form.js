@@ -51,37 +51,55 @@ const originForm = [
     title: 'nickname',
     content: '',
     isRequired: true,
-    isEmpty: null
+    isEmpty: null,
+    inputType: 'text',
+    inputLabel: '暱稱',
+
   },
   {
     title: 'email',
     content: '',
     isRequired: true,
     isEmpty: null,
+    inputType: 'text',
+    inputLabel: '電子郵件',
+
   },
   {
     title: 'phone',
     content: '',
     isRequired: true,
     isEmpty: null,
+    inputType: 'text',
+    inputLabel: '手機號碼',
+
   },
   {
     title: 'type',
     content: '',
     isRequired: true,
     isEmpty: null,
+    inputType: 'radio',
+    inputLabel: '報名類型',
+
   },
   {
     title: 'referal',
     content: '',
     isRequired: true,
     isEmpty: null,
+    inputType: 'text',
+    inputLabel: '怎麼知道這活動的？',
+
   },
   {
     title: 'others',
     content: '',
     isRequired: false,
     isEmpty: null,
+    inputType: 'text',
+    inputLabel: '其他',
+    description: '對活動的一些建議'
   }
 ]
 
@@ -142,79 +160,56 @@ const Form = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      {form.map(item => {
+        if (item.inputType === 'text') {
+          return (
+            <FSC.FormBlock
+              key={item.title}
+              $isRequired={item.isRequired}
+            >
+              <FSC.FormBlockInputWrapper>
+                <Input
+                  label={item.inputLabel}
+                  name={item.title}
+                  handleChange={handleInputChange}
+                  data={item.content}
+                  desc={item.description}
+                />
 
-      <FSC.FormBlock $isRequired={true}>
-        <FSC.FormBlockInputWrapper>
-          <Input
-            label="暱稱"
-            name="nickname"
-            handleChange={handleInputChange}
-            data={(form.filter(item => item.title === 'nickname')[0].content)}
-          />
+                <FSC.InputWarning
+                  $isEmpty={item.isEmpty}
+                >
+                  請輸入{item.inputLabel}
+                </FSC.InputWarning>
+              </FSC.FormBlockInputWrapper>
+            </FSC.FormBlock>
+          )
+        } else if (item.inputType === 'radio') {
+          return (
+            <FSC.FormBlock
+              key={item.title}
+              $isRequired={item.isRequired}
+            >
+              <FSC.FormBlockInputWrapper>
+                <Radio
+                  label={item.inputLabel}
+                  name={item.title}
+                  handleChange={handleRadioChange}
+                  data={item.content}
+                />
+                <FSC.InputWarning
+                  $isEmpty={item.isEmpty}
+                >
+                  請輸入{item.inputLabel}
+                </FSC.InputWarning>
+              </FSC.FormBlockInputWrapper>
+            </FSC.FormBlock>
+          )
+        } else {
+          return <div>尚未設定表單問題</div>
+        }
+      })}
 
-          <FSC.InputWarning $isEmpty={(form.filter(item => item.title === 'nickname')[0].isEmpty)}>請輸入暱稱</FSC.InputWarning>
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
-
-      <FSC.FormBlock $isRequired={true}>
-        <FSC.FormBlockInputWrapper>
-          <Input
-            label="電子郵件"
-            name="email"
-            handleChange={handleInputChange}
-            data={(form.filter(item => item.title === 'email')[0].content)}
-          />
-          <FSC.InputWarning $isEmpty={(form.filter(item => item.title === 'email')[0].isEmpty)}>請輸入電子郵件</FSC.InputWarning>
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
-
-      <FSC.FormBlock $isRequired={true}>
-        <FSC.FormBlockInputWrapper>
-          <Input
-            label="手機號碼"
-            name="phone"
-            handleChange={handleInputChange}
-            data={(form.filter(item => item.title === 'phone')[0].content)}
-          />
-          <FSC.InputWarning $isEmpty={(form.filter(item => item.title === 'phone')[0].isEmpty)}>請輸入手機號碼</FSC.InputWarning>
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
-
-      <FSC.FormBlock $isRequired={true}>
-        <FSC.FormBlockInputWrapper>
-          <Radio
-            label="報名類型"
-            name="type"
-            handleChange={handleRadioChange}
-            data={(form.filter(item => item.title === 'type')[0].content)}
-          />
-          <FSC.InputWarning $isEmpty={(form.filter(item => item.title === 'type')[0].isEmpty)}>請選擇報名類型</FSC.InputWarning>
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
-
-      <FSC.FormBlock $isRequired={true}>
-        <FSC.FormBlockInputWrapper>
-          <Input
-            label="怎麼知道這活動的？"
-            name="referal"
-            handleChange={handleInputChange}
-            data={(form.filter(item => item.title === 'referal')[0].content)}
-          />
-          <FSC.InputWarning $isEmpty={(form.filter(item => item.title === 'referal')[0].isEmpty)}>請輸入怎麼知道的</FSC.InputWarning>
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
-
-      <FSC.FormBlock>
-        <FSC.FormBlockInputWrapper>
-          <Input
-            label="其他"
-            name="others"
-            handleChange={handleInputChange}
-            desc={"對活動的一些建議"}
-            data={(form.filter(item => item.title === 'others')[0].content)}
-          />
-        </FSC.FormBlockInputWrapper>
-      </FSC.FormBlock>
 
       <FSC.FormSubmit type="submit" />
       <p>
