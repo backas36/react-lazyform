@@ -12,11 +12,14 @@
     "styled-components": "^5.3.1",
     "web-vitals": "^1.0.1"
   },
+  "homepage": "https://backas36.github.io/react-lazyform",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
